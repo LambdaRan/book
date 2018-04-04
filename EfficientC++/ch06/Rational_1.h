@@ -1,3 +1,4 @@
+
 #ifndef RATIONAL_1_H
 #define RATIONAL_1_H
 
@@ -25,6 +26,8 @@ public:
 
     void *operator new(size_t size)
     {
+        (void)size;
+
         if (0 == freeList)// 如果列表为空，则将其填满
         {
             expandTheFreeList();
@@ -38,6 +41,8 @@ public:
 
     void operator delete(void *doomed, size_t size)
     {
+         (void)size;
+
         NextOnFreeList *head = static_cast<NextOnFreeList *>(doomed);
         head->next = freeList;
         freeList = head;

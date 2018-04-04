@@ -18,6 +18,7 @@ public:
 
     void operator delete(void *doomed, size_t size)
     {
+        (void)size;
         memPool->free(doomed);
     }
     

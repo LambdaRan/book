@@ -1,5 +1,6 @@
 #显示所有警告
-CFLAGS += -Wall -Wextra -std=c++11
+CXXFLAGS += -Wall -Wextra -std=c++11
+#CXXFLAGS +=  -Werror -Wfatal-errors
 #-std=c++0x
 #CFLAG += -O #基本优化
 # -g选项，产生供gdb调试用的可执行文件
@@ -15,10 +16,10 @@ INCLUDE_DIRS = -I.
 OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 
 $(PROJECT):$(OBJS)
-	$(CC) -o $@ $^ $(CFLAG) $(SYSLIB)
+	$(CC) -o $@ $^ $(CXXFLAGS) $(SYSLIB)
 #	mv $(OBJS_BASE) $(OBJDIR)
 $(OBJS):%.o:%.cpp
-	$(CC) -c $(CFLAGS) $< -o $@ $(INCLUDE_DIRS)
+	$(CC) -c $(CXXFLAGS) $< -o $@ $(INCLUDE_DIRS)
 .PHONY: clean
 clean:
 	rm -f $(OBJDIR)/*.o $(PROJECT)
