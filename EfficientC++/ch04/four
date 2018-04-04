@@ -1,0 +1,43 @@
+
+返回值优化
+
+
+返回值优化（Return Value Optimization， RVO）
+    编译器常用的一种优化技术，它通过转换源代码和消除对象的创建来加快源代码的执行速度。
+
+
+
+4.1 按值返回机制
+    有局部对象创建
+
+4.2 返回值优化
+    消除局部对象的创建
+
+    RVO不是强制执行， 不执行RVO的情况：
+        函数有多个return语句返回不同名称的对象。
+        如果想使用RVO，就必须返回形同名称的对象。
+
+    { // 以下可能不对
+        执行RVO：一般返回构造
+            {
+                return Complex(a.real + b.real, a.imag + b.imag);
+            }
+        不执行RVO：含有局部变量
+            {
+                Complex retVal;
+                    retVal.real = 
+                    retVal.imag = 
+                return retVal;
+            }
+    }
+
+    ** 另外，必须定义拷贝构造函数来“打开”RVO。如果相关的类没有定义拷贝构造函数，RVO就会悄悄地关闭。
+
+4.3 计算性构造函数
+
+    Complex::Complex(const Complex &x, const Complex &y)
+        : real(x.real + y.real), imag(x.imag + y.imag)
+    {}
+
+
+
