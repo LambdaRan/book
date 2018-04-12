@@ -10,7 +10,11 @@ PROJECT = main
 SYSLIB = 
 
 OBJDIR = .
-SRCS = $(wildcard ./*.cpp)
+#SRCS = $(wildcard ./*.cpp)
+
+SRCS = LinkList_test.cpp
+
+
  #指定头文件目录，代码中就不需要把头文
 INCLUDE_DIRS = -I. 
 OBJS = $(patsubst %.cpp,%.o,$(SRCS))

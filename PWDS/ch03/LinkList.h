@@ -20,12 +20,7 @@ public:
     // 释放链表
     ~LinkList()
     {
-        while (head_.next_)
-        {
-            Node *tmp = head_.next_;
-            head_.next_ = tmp->next_;
-            delete tmp;
-        }
+        clear();
     }
 
     void push(T value)
@@ -37,7 +32,14 @@ public:
 
     void append(T value)
     {
+        Node *node = &head_;
+        while (node->next_)
+        {
+            node = node->next_;
+        }
 
+        Node *tmp = new Node(value);
+        node->next_ = tmp;
     }
 
     T pop()
@@ -49,27 +51,80 @@ public:
         return t;
     }
 
+    // 如果索引大于链表大小 直接把新节点插入链尾
+    void insert(size_t i, T value)
+    {
+        Node *node = &head_;
+        size_t j = 1;
+        while (node->next_ && j < i)
+        {
+            node = node->next_;
+            ++j;
+        }
+
+        Node *tmp = new Node(value);
+        if (!node->next_ || j > i) // 最后一个节点
+        {
+            node->next_ = tmp;
+        }
+        else 
+        {
+            tmp->next_ = node->next_->next_;
+            node->next_ = tmp;
+        }
+    }
+
+    T get(size_t i)
+    {
+        Node *node = head_.next_;
+        size_t j = 1;
+        while (node && j < i)
+        {
+            node = node->next_;
+            ++j;
+        }
+
+        if (!node || j > i)
+        {
+            return 0;
+        }
+
+        return node->data_;
+    }
+
     void reverse()
     {
 
     }
 
-    size_t length() const 
+    size_t size() const 
     {
-
+        size_t cnt = 0;
+        Node *node = head_.next_;
+        while (node)
+        {
+            ++cnt;
+            node = node->next_;
+        }
+        return cnt;
     }
 
     void clear()
     {
-
+        while (head_.next_)
+        {
+            Node *tmp = head_.next_;
+            head_.next_ = tmp->next_;
+            delete tmp;
+        }
     }
 
 
 private:
     struct Node 
     {
-        Node(T valude)
-            : data_(valud), next_(nullptr)
+        Node(T value)
+            : data_(value), next_(nullptr)
         {}
 
         T data_;
