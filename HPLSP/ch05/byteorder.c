@@ -1,5 +1,16 @@
 #include <stdio.h>
 
+
+// 小端字节序又被称为主机字节序
+// 大端字节序－－》网络字节序
+
+// 主机字节序与网络字节序之间的转换函数
+// #include <netinet/in.h>
+// unsigned long int htonl(unsigned long int hostlong);
+// unsigned short int htons(unsigned short int hostshort);
+// unsigned long int ntohl(unsigned long int netlong);
+// unsigned short int ntohs(unsigned short int netshort);
+
 void byteorder()
 {
     union 
