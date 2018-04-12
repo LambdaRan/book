@@ -3,7 +3,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h> // INET_ADDRSTRLEN
 #include <arpa/inet.h> // 地址转化函数
-#include <signal.h>
 #include <libgen.h> // basename()
 
 #include <unistd.h>
@@ -12,22 +11,11 @@
 #include <assert.h>
 #include <string.h> 
 #include <stdbool.h>
-
-
-
-static bool stop = false;
-// SIGTERM 信号的处理函数。触发时结束主程序的循环
-static void handle_term(int sig)
-{
-    (void)sig;
-    
-    stop = true;
-}
+#include <errno.h>
 
 int main(int argc, char *argv[])
 {
 
-    signal(SIGTERM, handle_term);
     if (argc <= 3)
     {
         printf("usage: %s ip_address port_number backlog\n", basename(argv[0]));
@@ -55,10 +43,22 @@ int main(int argc, char *argv[])
     ret = listen(sock, backlog);
     assert(ret != -1);
 
-    // 循环等待连接，知道SIGTERM信号将它中断
-    while (!stop)
+    // 暂停20秒以等待客户连接和相关操作
+    sleep(20);
+    struct sockaddr_in client;
+    socklen_t client_addrlen = sizeof(client);
+    int connfd = accept(sock, (struct sockaddr *)&client, &client_addrlen);
+    if (connfd < 0)
     {
-        sleep(1);
+        printf("errno is : %d\n", errno);
+    }
+    else 
+    {
+        //　接收连接成功打印客户端ＩＰ地址和端口号
+        char remote[INET_ADDRSTRLEN];
+        printf("connected: with ip: %s and port: %d \n",
+            inet_ntop(AF_INET, &client.sin_addr, remote, INET_ADDRSTRLEN), ntohs(client.sin_port));
+        close(connfd);
     }
     // 关闭socket
     close(sock);

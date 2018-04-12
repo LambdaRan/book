@@ -10,7 +10,10 @@ PROJECT = main
 SYSLIB = 
 
 OBJDIR = .
-SRCS = $(wildcard ./*.c)
+#SRCS = $(wildcard ./*.c)
+SRCS = test_54.c
+
+
  #指定头文件目录，代码中就不需要把头文
 INCLUDE_DIRS = -I. 
 OBJS = $(patsubst %.c,%.o,$(SRCS))
