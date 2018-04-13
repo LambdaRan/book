@@ -9,6 +9,9 @@
 
 #include <stddef.h>
 
+#include <iostream>
+
+
 template<typename T>
 class LinkList 
 {
@@ -137,28 +140,41 @@ public:
         if (!node || j > i)
         {
             iterator_node_ = NULL;
+            //std::cout << "iterator_init NULL" << "\n";
         }
         else 
         {
             iterator_node_ = node;
+            //std::cout << "iterator_init " << iterator_node_->data_ << "\n";
         }
     }
 
     bool iterator_end() const 
     {
-        return iterator_node_ == NULL;
+        if (iterator_node_ == NULL)
+        {
+            //std::cout << " NULL " ;  
+            return true; 
+        }
+        else  
+        {
+            //std::cout << " NotNULL " ;  
+            return false;             
+        }
     }
     // 得到当前节点的值，并移到下一节点
     T *iterator_next()
     {
         if (iterator_end())
         {
+            //std::cout << " next NULL " ;
             return NULL;
         }
         else 
         {
             T *t = &iterator_node_->data_;
             iterator_node_ = iterator_node_->next_;
+            //std::cout << " next Not NULL " << *t << " " ;
             return t;
         }
     }

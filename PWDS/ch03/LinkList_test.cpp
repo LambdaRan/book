@@ -27,22 +27,44 @@ int main(void)
     std::cout << "list append(9): 9 --> " << l1.get(l1.size()) << "\n";
 
     int *iter;
-    for (l1.iterator_init(1); l1.iterator_end(); )
-    {
-        iter = l1.iterator_next();
-        if (iter != NULL)
-        std::cout << "%d " << *iter;
-    }
-    std::cout << "\n";
+    int count = 0;
+    l1.iterator_init(1);
+    //for (l1.iterator_init(1); l1.iterator_end(); )
 
-    l1.reverse();
-    for (l1.iterator_init(1); l1.iterator_end(); )
+    if (l1.iterator_end())
     {
+        std::cout << "list iterator_end NULL" << "\n";
+    } 
+    else  
+    {
+        std::cout << "list iterator_end Not NULL" << "\n";
         iter = l1.iterator_next();
-        if (iter != NULL)
-        std::cout << "%d " << *iter;
+        std::cout << "list next " << *iter << "\n";
+        for (int i = 0; i < 2; ++i)
+        {
+            iter = l1.iterator_next();
+            if (iter != NULL)
+             std::cout << "list next " << *iter << "\n";
+            else 
+                break;
+        }
     }
-    std::cout << "\n";    
+    // while (l1.iterator_end())
+    // {
+    //     ++count;
+    //     std::cout << " count:" << count << " ";
+    //     iter = l1.iterator_next();
+    //     std::cout << *iter;
+    // }
+    // std::cout << "\n";
+
+    // l1.reverse();
+    // for (l1.iterator_init(1); l1.iterator_end(); )
+    // {
+    //     iter = l1.iterator_next();
+    //     std::cout << *iter;
+    // }
+    // std::cout << "\n";    
 
     //std::cout << "list find(6): true -->  " << (l1.find(6) == 0 ? "false" : "true") << "\n";
 
