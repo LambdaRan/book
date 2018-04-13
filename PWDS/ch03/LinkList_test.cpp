@@ -18,8 +18,31 @@ int main(void)
     std::cout << "list size: 3 --> " << l1.size() << "\n";
     l1.insert(8,8);
     std::cout << "list insert(8,8) get(size): 8 --> " << l1.get(l1.size()) << "\n";
-
     std::cout << "list get(2): 6 --> " << l1.get(2) << "\n";
+    std::cout << "list pop(): 1 --> " << l1.pop() << "\n";
+    int ret;
+    l1.deletel(1, ret);
+    std::cout << "list deletel(1): 6 --> " << ret << "\n";
+    l1.append(9);
+    std::cout << "list append(9): 9 --> " << l1.get(l1.size()) << "\n";
+
+    int *iter;
+    for (l1.iterator_init(1); l1.iterator_end(); )
+    {
+        iter = l1.iterator_next();
+        if (iter != NULL)
+        std::cout << "%d " << *iter;
+    }
+    std::cout << "\n";
+
+    l1.reverse();
+    for (l1.iterator_init(1); l1.iterator_end(); )
+    {
+        iter = l1.iterator_next();
+        if (iter != NULL)
+        std::cout << "%d " << *iter;
+    }
+    std::cout << "\n";    
 
     //std::cout << "list find(6): true -->  " << (l1.find(6) == 0 ? "false" : "true") << "\n";
 
