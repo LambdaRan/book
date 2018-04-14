@@ -30,25 +30,25 @@ public:
     }
 
     // 不检查是否越界
-    T get(size_t index) const 
+    T& get(size_t index) const 
     {
         return container_[index];
     }
 
-    size_t find(T value) const 
+    size_t find(const T &value) const 
     {
         return std::end(container_) - std::find(std::begin(container_), std::end(container_), value) ;
     }
 
     // 不检查越界
-    void push(T value)
+    void push(const T &value)
     {
         container_[size_] = value;
         ++size_;
     }
 
     // 不检查越界
-    void insert(size_t index, T value)
+    void insert(size_t index, const T &value)
     {
         for (int i = size_; i > index; --i)
         {
@@ -58,15 +58,14 @@ public:
         ++size_;
     }
     // 不检查越界
-    T deletel(size_t index)
+    void deletel(size_t index, T &ret)
     {
-        T value = container_[index];
+        ret = container_[index];
         for (int i = index; i < size_; ++i)
         {
             container_[i] = container_[i+1];
         }
         --size_;
-        return value;
     }
 
     size_t size() const 

@@ -21,7 +21,8 @@ int main(void)
 
     std::cout << "list find(6): true -->  " << (l1.find(6) == 0 ? "false" : "true") << "\n";
 
-    int ret = l1.deletel(0);
+    int ret;
+    l1.deletel(0, ret);
     std::cout << "list deletel(0) value: 0 -->  " << ret << "\n";
 
     l1.clear();
