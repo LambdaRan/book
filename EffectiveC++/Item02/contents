@@ -1,0 +1,11 @@
+
+条款０２：尽量以const enum inline 替换 #define
+
+对于class专属常量,只要不取它们的地址，可以声明并使用它们而无需提供定义式。　视编译器而定
+
+
+
+
+请记住
+    对于单纯常量，最好以const对象或enums替换#define
+    对于形似函数的宏(macros)最好改用inline 函数替换#defines

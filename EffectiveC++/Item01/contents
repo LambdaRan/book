@@ -1,0 +1,18 @@
+
+条款01: 视Ｃ＋＋为一个语言联邦
+
+
+    多重范型编程语言
+        过程形式(procedural)
+        面向对象形式(object-oriented)
+        函数形式(functional)
+        泛型形式(generic)
+        元编程形式(metaprogramming)
+
+语言联邦
+    C
+    Object-Oriented C++
+    Template C++
+    STL
+
+    
