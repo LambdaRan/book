@@ -2,4 +2,50 @@
 
 条款03: 尽可能使用const
 
+顶层const (top-level const)
+底层const (low-level const)
 
+const * --> 被指对象是常量      底层const
+* const --> 指针本身是常量      顶层const 
+
+关键字const出现在星号左边，表示被指物是常量；
+如果出现在星号右边，表示指针自身是常量；
+如果出现在星号两边，表示被指物和指针两者都是常量；
+
+by value返回对象：
+    const函数返回值(不是const引用) －－》　避免发生　“＝＝”写成“＝”
+
+const成员函数 
+    不能修改对象内容
+    可以操作const对象
+
+函数的const和非const版本　－－》　可构成函数重载
+
+函数形参的顶层const会被忽略
+
+
+避免代码重复：
+non-const函数调用其const兄弟是一个避免代码重复的安全做法
+
+class TextBlock
+{
+public:
+    ...
+    const char& operator[](std::size_t positon) const 
+    {
+        ...
+        ...
+        return text[positon];
+    }
+    char& operator[](std::size_t positon)
+    {
+        return const_cast<char&>(static_cast<const TextBlock&>(*this)[positon]);
+    }
+};
+
+
+请记住：
+    将某些东西声明为const可帮助编译器侦测出错误用法。const可被施加于任何作用域内地的
+        对象、函数参数、函数返回类型、成员函数本体。
+    编译器强制实施bitwise constness,但你编写程序时应该使用“概念上的常量性”（conceptual constness）
+    当const与no-const成员函数有着实质等价的实现时，令non-const版本调用const版本可避免代码重复.
