@@ -7,6 +7,7 @@
 #define LIST_V0_H
 
 #include <stddef.h> // size_t
+#include <assert.h>
 
 #include <algorithm> // std::find()
 #include <iterator> // std::begin() std::end()
@@ -43,6 +44,8 @@ public:
     // 不检查越界
     void push(const T &value)
     {
+        assert( size_ <= capcity_);
+
         container_[size_] = value;
         ++size_;
     }
@@ -50,6 +53,9 @@ public:
     // 不检查越界
     void insert(size_t index, const T &value)
     {
+        assert(index <= size_+1);
+        assert(size_+1 <= capcity_);
+
         for (int i = size_; i > index; --i)
         {
             container_[i+1] = container_[i];
@@ -60,6 +66,9 @@ public:
     // 不检查越界
     void deletel(size_t index, T &ret)
     {
+        assert(index >= 0 && index <= size_-1);
+        assert(size_-1 >= 0);
+
         ret = container_[index];
         for (int i = index; i < size_; ++i)
         {
