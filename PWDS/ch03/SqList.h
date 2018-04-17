@@ -3,8 +3,8 @@
 // 线性表的顺序存储结构
 // 只能存储内建类型
 
-#ifndef LIST_V0_H
-#define LIST_V0_H
+#ifndef SQLIST_H
+#define SQLIST_H
 
 #include <stddef.h> // size_t
 #include <assert.h>
@@ -13,10 +13,10 @@
 #include <iterator> // std::begin() std::end()
 
 template<typename T, size_t S>
-class List_v0 
+class SqList 
 {
 public:
-    List_v0()
+    SqList()
         : size_(0), capcity_(S)
     {}
 
@@ -88,8 +88,8 @@ public:
     }
 
 private: 
-    List_v0(const List_v0&);
-    List_v0& operator=(const List_v0&);
+    SqList(const SqList&);
+    SqList& operator=(const SqList&);
 
     size_t size_;
     size_t capcity_;
@@ -97,4 +97,4 @@ private:
 };
 
 
-#endif // !LIST_V0_H
+#endif // !SQLIST_H

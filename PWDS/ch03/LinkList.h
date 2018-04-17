@@ -46,7 +46,7 @@ private:
 
     struct Node 
     {
-        Node(const T &value)
+        explicit Node(const T &value)
             : data_(value), next_(NULL)
         {}
 
