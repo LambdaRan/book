@@ -41,6 +41,9 @@ public:
     size_t size() const;
     void clear();
 private:
+    LinkList(const LinkList&); // 阻止拷贝
+    LinkList& operator=(const LinkList&); //阻止赋值
+
     struct Node 
     {
         Node(const T &value)

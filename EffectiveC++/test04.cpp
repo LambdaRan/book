@@ -5,6 +5,9 @@ inline int get_static()
     static int loc = 3;
     return (++loc);
 }
+
+
+
 int main()
 {
     std::cout << "Hello Effective C++ \n";

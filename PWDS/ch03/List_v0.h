@@ -88,6 +88,9 @@ public:
     }
 
 private: 
+    List_v0(const List_v0&);
+    List_v0& operator=(const List_v0&);
+
     size_t size_;
     size_t capcity_;
     T container_[S];

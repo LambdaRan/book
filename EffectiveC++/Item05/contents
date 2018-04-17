@@ -1,0 +1,15 @@
+
+
+条款05：了解C++默认编写并调用哪些函数
+
+如果没有显示声明，编译器会声明copy构造函数、copy assignment操作符和一个析构函数。
+没有声明任何构造函数，编译器则会声明default构造函数
+
+唯有这些函数被需要（被调用），他们才会被编译器创造出来。
+
+当类中含有reference成员或const成员 需要自己编写以上函数。
+当base classes将copy assignment操作符声明为private，
+    编译器拒绝为其derived calsses生成一个copy assignment操作符
+
+请记住：
+    编译器可以暗自为class创建default构造函数、copy构造函数、copy assignment操作符，以及析构函数。

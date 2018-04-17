@@ -1,0 +1,47 @@
+
+
+条款06：如不想使用编译器自动生成的函数，就该明确拒绝
+
+最值copying的方法：
+    将copy构造函数或copy assignment操作符声明为private并且不定义它。
+
+class HomeForSale
+{
+public:
+    ...
+
+private:
+    HomeForSale(const HomeForSale&);
+    HomeForSale& operator=(const HomeForSale&);
+};
+这样可防止客户拷贝对象
+当member函数或friend函数内copy对象时，由于copy构造函数或copy assignment操作符没有定义，所以此时链接器将报错。
+
+改进：将链接期错误移至编译期
+    专门为阻止copying动作设计一个类
+
+    class noncopyable
+    {
+    protected:
+    noncopyable() {}
+    ~noncopyable() {}
+    private:
+    noncopyable(const noncopyable&);
+    const noncopyable& operator=(const noncopyable&);
+    };
+
+请记住：
+    为驳回编译期自动提供的机能，可将相应的成员函数声明为private并且不予以实现。
+
+
+
+此外，在C++11以后标准中，可以将copy构造函数或copy assignment操作符定义为删除的函数。
+struct Nocopy 
+{
+    Nocopy() = default;
+    Nocopy(const Nocopy&) = delete; // 阻止拷贝
+    Nocopy& operator=(const Nocopy&) = delete; // 阻止赋值
+    ~Nocopy() = default;
+};
+
+

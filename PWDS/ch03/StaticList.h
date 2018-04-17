@@ -55,6 +55,9 @@ public:
 
 
 private:
+    StaticList(const StaticList&);
+    StaticList& operator=(const StaticList&);
+    
     struct Component
     {
         Component()

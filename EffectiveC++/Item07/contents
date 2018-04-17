@@ -1,0 +1,23 @@
+
+
+条款07：为多态基类声明virtual析构函数
+
+任何class只要带有virtual函数都几乎确定应该有一个virtual析构函数。
+
+“给base class一个virtual析构函数”这个规则只适用与polymorphic（带多态性质的）base class 身上。
+    这种base class的设计目的是为了用来“通过base class接口处理derived class对象”。
+
+
+请记住：
+    polymorphic（带多态性质的）base class应该声明一个virtual析构函数。
+        如果class带有任何virtual函数，他就应该拥有一个virtual析构函数。
+    class的设计目的不是作为base class适用，或不是为了具备多态性质，就不该声明virtual析构函数。
+
+
+此外：
+    析构函数，首先执行函数体，然后销毁成员。成员按初始化顺序的逆序销毁。
+
+/**/    需要析构函数的类也需要拷贝和赋值操作。
+/**/    如果一个类需要一个拷贝构造函数，几乎可以肯定它也需要一个拷贝赋值运算符。反之亦然。
+            一个类需要一个拷贝赋值运算符，几乎可以肯定它也需要一个拷贝构造函数。
+            但是不一定需要析构函数。
