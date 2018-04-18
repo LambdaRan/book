@@ -1,0 +1,22 @@
+
+
+条款10：令operator=返回一个reference to *this
+
+赋值的连锁形式
+    int x, y, z;
+    x = y = z = 15;
+赋值采用右结合性：
+    x = (y = (z = 15));
+
+为了实现“连锁赋值”，赋值操作符必须返回一个reference指向操作符的左侧实参。
+    不是强制，但是被所有内置类型和标准程序库提供的类型共同遵守的协议。
+Widget& operator=(const Widget& rhs)
+{
+    ...
+    return *this; // 返回左侧对象
+}
+
+    也适用于所有赋值相关运算符，如opera+=
+
+请记住：
+    令赋值（assignment）操作符返回一个reference to *this

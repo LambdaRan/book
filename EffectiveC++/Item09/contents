@@ -1,0 +1,40 @@
+
+
+条款09：绝不在构造和析构函数中调用virtual函数
+
+在class Transaction内将logTransaction函数改为nonvirtual，
+    然后要求derived class构造函数传递必要的信息给Transaction构造函数，
+    而后那个构造函数便可安全的调用nonvirtual logTransaction
+    class Transaction 
+    {
+    public:
+        explicit Transaction(const std::string& logInfo);
+        void logTransaction(const std::string& logInfo) const;// 如今是个non-virtual函数
+
+        ...
+    };
+
+    Transaction::Transaction(const std::string& logInfo)
+    {
+        ...
+        logTransaction(logInfo);// 如今是个non-virtual函数调用
+    }
+
+    class BuyTranslation:public Transaction
+    {
+    public:
+        BuyTranslation(parameters)
+            : Transaction(createLogString(parameters))
+            {
+                ...
+            }
+    private:
+        static std::string createLogString(parameters);
+    };
+
+    在构造期间，“令derived class 将必要的构造信息向上传递至base class 构造函数”
+        替换在base class中使用non-virtual函数
+
+请记住：
+    在构造和析构期间不要调用virtual函数，因为这类调用从不降至derived class
+        （比起当前执行构造函数和析构函数的那层）

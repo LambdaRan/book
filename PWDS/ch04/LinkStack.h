@@ -51,10 +51,10 @@ template<typename T>
 inline
 LinkStack<T>::~LinkStack()
 {
-    Node *tmp = NULL;
+    //Node *tmp = NULL;
     while (top_)
     {
-        tmp = top_;
+        Node *tmp = top_;
         top_ = top_->next_;
         delete tmp;
     }
