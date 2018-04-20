@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include <string>
 #include <iostream>
@@ -93,6 +94,20 @@ std::string infixToSuffix(const char *expression)
                             symbol.pop();
                             if (ch == '(')
                             {
+                                while (!symbol.empty())
+                                {
+                                    ch = symbol.top();
+                                    if (ch == '*' || ch == '/')
+                                    {
+                                        result[numCount++] = ' ';
+                                        result[numCount++] = ch;
+                                        symbol.pop();                
+                                    }
+                                    else  
+                                    {
+                                        break;
+                                    }
+                                }
                                 break;
                             }
                             else  
@@ -123,6 +138,7 @@ std::string infixToSuffix(const char *expression)
         result[numCount++] = ' ';
         result[numCount++] = ch;
     }
+    result[numCount++] = ' ';
     result[numCount] = '\0';
     return std::string(result);     
 }
@@ -130,6 +146,7 @@ std::string infixToSuffix(const char *expression)
 // 后缀表达式计算结果
 // 规则： 从左到右遍历表达式的每个数字和符号，遇到是数字就进栈，
 //       遇到是符号，就将处于栈顶的两个数字出栈，进行计算，运算结果进栈，一直到最终获得结果。
+inline
 int calculate(const char ch, int v1, int v2)
 {
     int ret;
@@ -152,66 +169,78 @@ int calculate(const char ch, int v1, int v2)
     }
     return ret;
 }
-
 int calculateSuffixExpression(std::string &expression)
 {
 
     SqStack<int, 128> number;
-    std::string::size_type start = 0;
-    std::string::size_type end = 0;
-
-    int tmp = 0;
-    int count = 3;
-    while (count--)
+    char numstr[12] = {0};
+    int numCount = 0;
+    int numtmp = 0;
+    for (size_t i = 0; i < expression.length(); ++i)
     {
-        end = expression.find(' ', start);
-        std::cout << "start: " << start << "end：" << end << "\n";
-        if (end - start == 1)
+        if (isdigit(expression[i]))
         {
-            if (isdigit(expression[end-1]))
+            numstr[numCount++] = expression[i];
+        }
+        else  
+        {
+            if (expression[i] == ' ')
             {
-                tmp = expression[end-1] - '0';
-                number.push(tmp);
+                switch (numCount)
+                {
+                    case 0:
+                        continue;
+                    case 1:
+                        numtmp = numstr[0] - '0';
+                        break;
+                    default:
+                        numstr[numCount] = '\0';
+                        numtmp = atoi(numstr);
+                        break;
+                }
+                //std::cout << "push: " << numtmp << std::endl;
+                number.push(numtmp); 
+                numCount = 0;                               
             }
-            else  // 符号
+            else  
             {
-                // int top1 = number.top();
-                // number.pop();
-                // int top2 = number.top();
-                // number.pop();
-
-                // number.push(calculate(expression[end-1], top2, top1));
+                int top1 = number.top();
+                number.pop();
+                int top2 = number.top();
+                number.pop();
+                numtmp = calculate(expression[i], top2, top1);
+                //std::cout << "top2:" << top2 << expression[i] << "top1:" << top1 << " numtmp: " << numtmp << std::endl;
+                number.push(numtmp);                
             }
         }
-        else  // 多位数字
-        {   
-            std::string nstr = expression.substr(start, end);
-            std::cout << nstr << std::endl;
-            //tmp = std::stoi(nstr);
-            //number.push(tmp);
-            //break;
-        }
-
-        start = end;
-        if (end == std::string::npos)
-            break;
     }
-
     return number.top();
 }
-
 
 int main(void)
 {
 
-    const char *expre = "9+(312-1)*3+10/2";// 9 3 1 - 3 * + 1 0 2 / +
-    //const char *expre1 = "6＋3*(9-7)-8/2";//6397-*+82/- 
-    //const char *expre2 = "(8-2)/(3-1)*(9-6)"; // 82-31-/96-* 
+    const char *expre = "9+(312-1)*3+10/2";// 9 312 1 - 3 * + 1 0 2 / +
+    const char *expre1 = "6+3*(9-7)-8/2";//6397-*+82/- 
+    const char *expre2 = "(8-2)/(3-1)*(9-6)"; // 82-31-/96-* 
+    const char *expre3 = "((23*(3+(8-1)*3)+2)-(9/3))";
+    //std::cout << infixToSuffix(expre1) << std::endl;
 
     std::string str = infixToSuffix(expre);
     int ret = calculateSuffixExpression(str);
-    std::cout << str << " " << ret << std::endl;
-    //std::cout << infixToSuffix(expre1) << std::endl;
-    //std::cout << infixToSuffix(expre2) << std::endl;
+    std::cout << str << "\n ret: " << ret << std::endl;
+
+    str = infixToSuffix(expre1);
+    ret = calculateSuffixExpression(str);
+    std::cout << str << "\n ret: " << ret << std::endl; 
+
+    str = infixToSuffix(expre2);
+    ret = calculateSuffixExpression(str);
+    std::cout << str << "\n ret: " << ret << std::endl; 
+
+    str = infixToSuffix(expre3);
+    ret = calculateSuffixExpression(str);
+    std::cout << str << "\n ret: " << ret << std::endl;
+
     return 0;
 }
