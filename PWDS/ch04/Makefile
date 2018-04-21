@@ -59,7 +59,7 @@ SYSLIB =
 OBJDIR = .
 #SRCS = $(wildcard ./*.cpp)
 
-SRCS = stack_application.cpp
+SRCS = LinkQueue_test.cpp
 
 
  #指定头文件目录，代码中就不需要把头文

@@ -150,7 +150,7 @@ inline
 int calculate(const char ch, int v1, int v2)
 {
     int ret;
-    switch(ch)
+    switch (ch)
     {
         case '+':
             ret = v1 + v2;
