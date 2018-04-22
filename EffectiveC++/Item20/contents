@@ -1,0 +1,15 @@
+
+
+条款20：宁以pass-by—reference-to-const 替换pass-by-value
+
+
+
+引用传递方式的效率高的多：没有任何构造函数和析构函数被调用，应为没有任何新对象被创建。
+引用传递方式传递参数也可以避免slicing（对象切割）问题。
+
+对象属于内置类型，pass by value往往比pass by reference的效率高些
+
+
+请记住：
+    尽量以pass-by—reference-to-const替换pass-by-value。前者通常比较高效，并可避免切割问题
+    以上规则并不适用于内置类型，以及STL的迭代器和函数对象。对他们而言，pass-by-value往往比较适当

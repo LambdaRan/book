@@ -1,0 +1,12 @@
+
+
+条款23：宁以non-member、non-friend替换member函数
+
+将non-member函数放在namespace内：
+    切割class的机能
+    扩展class的机能：将所有便利函数放在多个头文件内但隶属于同一个命名空间，意味着客户可以轻松扩展这一组便利函数
+
+请记住：
+    宁可拿non-member non-friend替换member函数这样做可以增加封装性、
+        包裹弹性和机能扩展性。
+

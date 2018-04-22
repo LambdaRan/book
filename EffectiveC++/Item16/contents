@@ -1,0 +1,23 @@
+
+
+条款16：成对使用new和delete时要采用相同的形式
+
+注意new --> new[]、delete --> delete[] 的区别
+
+使用时，必须要对应，即使用new申请内存必须使用delete释放
+                    使用new[]申请内存必须使用delete[]释放
+
+注意：
+    typedef std::string AddressLines[4];
+
+    std::string *pal = new AddressLines;
+
+    // delete pal; // 行为未定义
+    delete[] pal;
+
+    为避免此类错误，最好不要对数组形式做typedefs动作。
+
+
+请记住：
+    如果你在new表达式中使用[],必须在相应的delete表达式中也是用[].
+        如果你在new表达式中不使用[], 一定不要在相应的delete表达式中使用[].

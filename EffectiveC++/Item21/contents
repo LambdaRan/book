@@ -1,0 +1,16 @@
+
+
+条款21：必须返回对象时，别妄想返回其reference
+
+
+记住：所谓reference只是个名称，代表某个既有对象。
+    任何时候看到一个reference声明式，你都应该立刻问自己，他的另一个名称是什么？
+
+总结：当你必须在“返回一个reference和返回一个object”之间抉择时，你的工作就是挑选出行为正确的那个。
+    让编译器厂商为“尽可能降低成本”鞠躬尽瘁吧，你可以享受你的生活
+
+请记住：
+    绝不要返回pointer或reference指向一个local stack对象，或返回reference指向一个
+        heap-allocated对象，或返回pointer或reference指向一个local static对象而有可能
+        同时需要多个这样的对象，条款4 单线程返回 reference指向local static对象
+        

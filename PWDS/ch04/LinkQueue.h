@@ -60,19 +60,16 @@ LinkQueue<T>::~LinkQueue()
 }
 template<typename T>
 LinkQueue<T>::LinkQueue(const LinkQueue<T> &rhs)
+    : size_(0), header_(0), rear_(&header_) // 存在一个问题header_(0)
 {
-    if (this != &rhs) // 防止自我拷贝
+    Node *tmp = rhs.header_.next_;
+    while (tmp)
     {
-        clear();
-        rear_ = &header_;
-        Node *tmp = rhs.next_;
-        while (tmp)
-        {
-            push(tmp->data_);
-            tmp = tmp->next_;
-        }
-    } 
+        push(tmp->data_);
+        tmp = tmp->next_;
+    }
 }
+
 template<typename T>
 typename LinkQueue<T>::LinkQueue& LinkQueue<T>::operator=(const LinkQueue &rhs)
 {
@@ -132,7 +129,7 @@ template<typename T>
 inline
 const T& LinkQueue<T>::back() const
 {
-    return header_->data_;
+    return rear_->data_;
 }
 template<typename T>
 void LinkQueue<T>::clear()
