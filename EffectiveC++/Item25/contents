@@ -1,0 +1,40 @@
+
+
+条款25：考虑写出一个不抛异常的swap函数
+
+swap函数：
+    STL的一部分
+    异常安全性编程的脊柱
+    处理自我赋值的一个常见机制
+
+只要类型T支持copying（通过copy构造函数和copy assignment操作符完成），
+    缺省的swap实现代码可帮你置换类型为T的对象
+
+对于class对象：
+    将std::swap针对Widget特化。
+
+通常我们不能够（不被允许）改变std命名空间内的任何东西，但可以（被允许）为标准template制造特化版本。
+
+我们不能偏特化一个function template，但C++只允许对class template偏特化。
+
+default swap、member swap 、non-member swap、std::swap特化版本、对swap调用
+
+首先：如果swap缺省实现版本对你的class或class template提供可接受的效率，请不需要额外做任何事。
+
+其次：如果缺省swap实现版本的效率不足（那几乎总是意味着你的class或template使用了某种pimpl手法（31））
+    试着做以下事情：
+    1、提供一个public swap成员函数，让它高效的置换你的类型的两个对象值。这个函数绝不该抛出异常。
+    2、在你的class或template所在的命名空间内提供一个non-member swap，并令它调用上述swap成员函数。
+    3.如果你正编写一个class（而非class template）， 为你的class特化std::swap,并令它调用你的swap成员函数。
+
+最后：如果你调用swap，请确定包含一个using声明式，以便让std::swap在你的函数内曝光可见，然后不加任何namespace修饰符，
+    赤裸裸调用swap。
+
+成员版本swap决不可抛出异常。这一约束只施于成员版。
+
+请记住：
+    当std::swap对你的类型效率不高时，提供一个swap成员函数，并确定这个函数不抛异常。
+    如果你提供一个member swap，也应该提供一个non-member swap用来调用前者。
+        对于class（而非template），也请特化std::swap。 
+    调用swap时应针对std::swap使用using声明式，然后调用swap并且不带任何“命名空间资格修饰”
+    为“用户定义类型”进行std template全特化是好的，但千万不要尝试在std内加入某些对std而言全新的东西。
