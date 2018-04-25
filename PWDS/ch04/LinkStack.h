@@ -48,7 +48,6 @@ LinkStack<T>::LinkStack()
 {}
 
 template<typename T>
-inline
 LinkStack<T>::~LinkStack()
 {
     //Node *tmp = NULL;
@@ -62,7 +61,6 @@ LinkStack<T>::~LinkStack()
 }
 
 template<typename T>
-inline
 void LinkStack<T>::push(const T &value)
 {
     Node *tmp = new Node(value);
@@ -71,7 +69,6 @@ void LinkStack<T>::push(const T &value)
     ++size_;
 }
 template<typename T>
-inline
 void LinkStack<T>::pop()
 {
     //assert();

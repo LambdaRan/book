@@ -1,0 +1,16 @@
+
+
+条款35：考虑virtual函数以外的其他选择
+
+
+藉由Non-Virtual Interface手法实现Template Method模式
+
+non-virtual interface（NVI）手法
+    它是Template Method设计模式的一个独特表现形式。
+
+class GamCharacter
+{
+public：
+    int healthValue
+
+}；

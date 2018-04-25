@@ -53,7 +53,6 @@ LinkQueue<T>::LinkQueue()
 {}
 
 template<typename T>
-inline
 LinkQueue<T>::~LinkQueue()
 {
     clear();

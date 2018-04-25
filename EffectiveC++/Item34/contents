@@ -1,0 +1,44 @@
+
+
+条款34：区分接口继承和实现继承
+
+public继承由两部分组成：
+    函数接口（function interfaces）继承
+    函数实现（function implementations）继承
+
+思考：
+    有时候你会希望derived classes只继承函数的接口（也就是声明）
+    有时候你又会希望derived classes同时继承函数的接口和实现，但又希望能够覆写他们所继承的实现
+    有时候你希望derived classes同时继承函数的接口和实现，并且不允许覆写任何东西。
+
+pure virtual函数有两个突出的特征：
+    它们必须被任何“继承了它们”的具象class重新声明
+    而且它们在抽象class中通常没有定义；
+
+（1）声明一个pure virtual函数的目的是为了让derived classes只继承函数接口。
+    pure virtual函数可以提供定义。
+
+（2）声明简朴的（非纯）impure virtual函数的目的，是让derived classes继承该函数的接口和缺省实现。
+
+    允许impure virtual函数同时指定函数声明和函数缺省行为，却有可能造成危险；
+        派生类可能忘记重写此函数。（使自己的异化功能没有体现）
+    解决方法：
+        使用pure virtual函数实现
+        接口和缺省实现分开。
+（3）声明non-virtual函数的目的是为了令derived classes继承函数的接口及一份强制性实现。
+
+
+class设计者常犯的两个错误：
+    将所有函数声明为non-virtual
+    将所有函数声明为virtual
+
+防止类被继承 在类声明的名字后加关键字 final
+class Test final 
+{
+}；
+
+请记住：
+    接口继承和实现继承不同。在public继承之下，derived classes总是继承base class的接口。 
+    pure virtual函数只具体指定接口继承。
+    简朴的（非纯）impure virtual函数具体指定接口继承及缺省实现继承。
+    non-virtual函数具体指定接口继承以及强制性实现继承。

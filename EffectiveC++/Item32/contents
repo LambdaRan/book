@@ -1,0 +1,13 @@
+
+
+条款32：确定你的public继承塑造出is-a关系
+
+
+以C++进行面向对象编程，最重要的一个规则是：
+    public inheritance(公开继承)意味着“is-a”（是一种）的关系。
+
+    例如：每个学生都是人，但并非每个人都是学生。
+
+请记住：
+    “public继承”意味着is-a。适用于base classes身上的每一件事一定也适用于derived classes身上，
+        因为每一个derived classes对象也都是一个base classes对象。

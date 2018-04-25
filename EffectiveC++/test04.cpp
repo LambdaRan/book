@@ -1,17 +1,34 @@
 
 #include <iostream>
-inline int get_static()
+
+class Base 
 {
-    static int loc = 3;
-    return (++loc);
-}
-
-
-
+public:
+    void print1()
+    {
+        std::cout << "base1" << std::endl;
+    }
+    void print2()
+    {
+        std::cout << "base2" << std::endl;
+    }
+};
+class Derived : public Base
+{
+public:
+    void print2()
+    {
+        std::cout << "derived2" << std::endl;
+    }
+};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 int main()
 {
     std::cout << "Hello Effective C++ \n";
-    std::cout << "value1: " << get_static() << "\n";
-    std::cout << "value2: " << get_static() << "\n";
+
+    Derived dd;
+
+    dd.print1();
+    dd.print2();
+
     return 0;
 }
