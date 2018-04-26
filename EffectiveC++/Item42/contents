@@ -1,0 +1,35 @@
+
+
+条款42：了解typename的双重意义
+
+当我们声明template类型参数，class和typename的意义完全相同。
+
+template内出现的名称如果相依于某个template参数，称之为从属名称。
+如果从属名称在class内呈嵌套状，城它为嵌套从属名称。
+
+如果解析器在template中遭遇一个嵌套从属名称，它便假设这名称不是个类型，除非你告诉它是。
+
+任何时候当我们想要在template中指涉一个嵌套从属类型名称，就必须在紧邻它的前一个位置放上关键字typename。
+
+
+“typename必须作为嵌套从属类型名称的前缀词”这一规则的例外是：
+    typename不可以出现在base classes list内的嵌套从属类型名称之前，也不可以在
+        member initialization list（成员初始值列表）中作为base class修饰符。
+
+template<typename T>
+class Derived:public Base<T>::Nested // base class list 不允许typename
+{
+public:
+    explicit Derived(int x)
+        : Base<T>::Nested(x)        // member initialization list 中不允许typename
+    {
+        typename Base<T>::Nested temp; // 嵌套从属类型名称，需要
+                                        //  既不在base class list 中也不在member initialization list中
+                                        // 作为一个base class修饰符需加上typename
+    }
+};
+
+请记住：
+    声明template参数时，前缀关键字class和typename可互换
+    请使用关键字typename标识嵌套从属类型名称；但不得在base class lists（基类列）
+        或 member initialization list (成员初始值列)内把他作为base class修饰符。

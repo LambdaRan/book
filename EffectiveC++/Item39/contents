@@ -1,0 +1,85 @@
+
+
+条款39：明智而审慎的使用private继承
+
+如果class之间的继承关系是private，编译器不会自动将一个derived class对象
+    转换为一个base class对象。
+由private base class继承而来的所有成员，在derived class中都会变成private属性，
+    纵使它们在base class中原本是protected或public属性。
+
+Private继承意味着implement-in-terms-of（根据某物实现出）
+private继承纯粹只是一种实现技术（这就是为什么继承自一个private base class的每样东西在你的class内
+    都是private：因为它们都只是实现技术而已）。
+Private继承在软件“设计”层面上没有意义，其意义只在于软件实现层面。
+
+在条款38中指出复合的意义也是implement-in-terms-of（根据某物实现出），那如何在两者之间取舍？
+    答案很简单：尽可能使用复合，必要时才使用private继承。
+何时才是必要？
+    主要是当protected成员和/或virtual函数牵扯进来的时候。
+    还有一种激进情况，那是当空间方面的厉害关系足以踢翻private继承的支柱。EBO空白基类优化
+
+private形式继承：
+class Widget:private Timer
+{
+private:
+    virtual void onTick() const; // 查看Widget的数据等等
+};
+
+复合形式：
+class Widget
+{
+private:
+    class WidgetTimer:public Timer
+    {
+    public:
+        virtual void onTick() const;
+    };
+    WidgetTimer timer;
+};
+
+使用复合方式的理由：
+    首先：你或许会想设计Widget使它得以拥有derived class，但同时你可能会想阻止derived class重新定义onTick.
+        private继承不能实现（条款35，derived class可以重新定义virtual函数，即使它们不得调用它）；
+    第二：你或许很想将Widget的编译依存性降至最低。
+        把WidgetTimer移除Widget之外而Widget内含指针指向一个WidgetTimer，Widget可以只带着一个简单的
+            WidgetTimer声明式，不再需要#include任何与Timeer有关的东西
+
+C++裁定凡是独立（非附属）对象都必须有非零大小。
+
+class Empty {};
+class HoldsAnInt
+{
+private:
+    int x;
+    Empty e;
+};
+
+class HoldsAnInt2:private Empty
+{
+private:
+    int x;
+};
+
+sizeof(HoldsAnInt) < sizeof(int);
+sizeof(HoldsAnInt2) == sizeof(int);
+
+EBO(empty base optimization:空白基类最优化)
+
+EBO一般只在单一继承（而非多重继承）下才可行，统治C++对象布局的那些规则通常表示EBO无法被施于“拥有多个base的”derived class身上。
+
+“empty class”并不是真的是empty，只是没有non-static成员变量，一般含有typedefs、enum、static成员变量或non-virtual函数。
+
+复合和private继承都意味着is-implement-in-terms-of，但复合比较容易理解，所以
+    无论什么时候，只要可以，你还是应该选择复合。
+
+当你面对“并不存在is-a关系”的两个class，其中一个需要访问另一个的protected成员或
+    需要重新定义其一或多个virtual函数，private继承极有可能成为正统设计策略。
+“明智而审慎地使用private继承”意味：在考虑过所有其他方案以后，如果仍然认为private继承是
+    "表现程序内两个class之间的关系"的最佳办法，这才用它。
+
+请记住：
+    private继承意味is-implement-in-terms-of（根据某物实现出）。他通常比复合的级别低。
+        但是当derived class需要访问protected base class的成员，或需要重新定义继承而来的
+        virtual函数时，这么设计是合理的。
+    和复合不同，private继承可以造成empty base 最优化。这对致力于“对象尺寸最小”的程序库开发者
+        而言，可能很重要。

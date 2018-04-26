@@ -1,0 +1,74 @@
+
+
+
+条款43：学习处理模板化基类内的名称
+
+模板基类的派生类不能调用base class函数
+template<typename Company>
+class LoggingMsgSender:public MsgSender<Company>
+{
+public:
+    ...
+    void sendClearMsg(const MsgInfo& info)
+    {
+        将传送前的信息写进log
+        sendClear（info); // 调用base class函数，这段代码无法通过编译
+        将传送后的信息写进log
+    }
+};
+解决 产生一个MsgSender特化版
+template<>                  // 全特化
+class MsgSender<CompanyZ>
+{
+public:
+    void sendSecret(const MsgInfo& info)
+    {
+
+    }
+};
+
+解决C++“不进入templatized base classes观察”的三个办法：
+（1）在base class函数调用动作前加上“this->”
+    template<typename Company>
+    class LoggingMsgSender:public MsgSender<Company>
+    {
+    public:
+        ...
+        void sendClearMsg(const MsgInfo& info)
+        {
+            将传送前的信息写进log
+            this->sendClear（info); // 成立
+            将传送后的信息写进log
+        }
+    };
+（2）使用using声明式。
+    template<typename Company>
+    class LoggingMsgSender:public MsgSender<Company>
+    {
+    public:
+        using MsgSender<Company>::sendClear; // 告诉编译器，请他假设sendClear位于base class内
+        void sendClearMsg(const MsgInfo& info)
+        {
+            将传送前的信息写进log
+            sendClear（info); // OK
+            将传送后的信息写进log
+        }
+    }; 
+
+（3）明白指出被调用的函数位于base class内
+    template<typename Company>
+    class LoggingMsgSender:public MsgSender<Company>
+    {
+    public:
+        ...
+        void sendClearMsg(const MsgInfo& info)
+        {
+            将传送前的信息写进log
+            MsgSender<Company>::sendClear（info); // OK
+            将传送后的信息写进log
+        }
+    };  
+
+请记住：
+    可在derived class template内通过this->指涉base class template内的成员名称，或
+        藉由一个明白写出的 base class资源修饰符 完成。

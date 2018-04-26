@@ -7,7 +7,32 @@
 #include <stddef.h>
 #include <assert.h>
 
+// 存在一个问题 SqQueue<int, 5>SqQueue<int, 10>具现两个不同的类型
+// 这是template引出代码膨胀的典型例子
+// 解决办法：effective C++ 条款44
+// 提取只有类型模板参数为一个base模板， 其中定义存储大小和数据区域的指针，derived class实际存储数据
+// template<typename T>
+// class SqStackBase
+// {
+// protected:
+//     SqStackBase(size_t n, T* mem)
+//         : size_(n), data_(mem)
+//     {}
 
+// private: 
+//     size_t size_;
+//     T* data_;
+// };
+// template<typename T, size_t S>
+// class SqStack : private SqStackBase<T>
+// {
+// public:
+//     SqStack()
+//         : SqStackBase<T>(container_, S)
+//     {}
+// private: 
+//     T container_[S];
+// };
 template<typename T, size_t S>
 class SqQueue 
 {

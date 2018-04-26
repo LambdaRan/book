@@ -1,6 +1,8 @@
 
 #include <iostream>
 
+#include <assert.h>
+
 class Base 
 {
 public:
@@ -12,14 +14,13 @@ public:
     {
         std::cout << "base2" << std::endl;
     }
+    static const int kcon = 32;
+    enum {ONE, TWO};
 };
 class Derived : public Base
 {
 public:
-    void print2()
-    {
-        std::cout << "derived2" << std::endl;
-    }
+    int x;
 };                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 int main()
 {
@@ -27,8 +28,7 @@ int main()
 
     Derived dd;
 
-    dd.print1();
-    dd.print2();
+    static_assert(sizeof(Derived) == sizeof(int), "sizeof(Derived) != sizeof(int)");
 
     return 0;
 }

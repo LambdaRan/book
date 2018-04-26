@@ -1,0 +1,12 @@
+
+
+条款41：了解隐士接口和编译期多态
+
+面向对象编程世界总是以显示接口（explicit interface）和运行期多态（runtime polymorphic）解决问题。
+Template及泛型编程世界以隐士接口（implicit interface）和编译期多态（complie-time polymorphic）解决问题。
+
+
+请记住：
+    classes和template都支持接口和多态
+    对classes而言接口是显示的，以函数签名为中心。多态则是通过virtual函数发生与运行期。
+    对template参数而言，接口是隐士的，奠基于有效表达式。多态则是通过template具现化和函数重载解析发生于编译期。

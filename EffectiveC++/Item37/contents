@@ -1,0 +1,62 @@
+
+条款37：绝不重新定义继承而来的缺省参数值
+
+只能继承两种函数：virtual和non-virtual函数
+    重新定义一个继承而来的non-virtual函数永远是错误的（条款36）
+
+virtual函数是动态绑定（dynamically bound），而缺省参数值却是静态绑定（statically bound）
+
+静态绑定又名前期绑定early binding；动态绑定又名后期绑定late binding； 
+
+对象的所谓静态类型，就是它在程序中被声明时所采用的类型。
+class Shape
+{
+public:
+    enum ShapeColor{Red, Green, Blue};
+    // 所有形状都必须提供一个函数，用来绘出自己
+    virtual void draw(ShapeColor color = Red) const = 0;
+};
+
+class Rectangle: public Shape
+{
+public:
+    // 注意：赋予不同的缺省参数值。这真糟糕
+    virtual void draw(ShapeColor color = Green) const;
+};
+
+class Circle: public Shape
+{
+public:
+    virtual void draw(ShapeColor color) const;
+    // 注意：以上这么写则当客户以对象调用此函数，一定要指定参数值
+    // 因为静态绑定下这个函数并不从其base继承缺省参数值
+    // 但若以指针或引用调用此函数，可以不指定参数值
+    // 因为动态绑定下这个函数会从其base继承缺省参数值
+};
+
+对象所谓动态绑定类型则是指“目前所指对象类型”。也就是说，动态类型可以表现出一个对象将会有什么行为。
+
+virtual函数是动态绑定而来，意思就是调用一个virtual函数时，究竟调用哪一份函数实现代码，
+    取决于发出调用的那个对象的动态类型。
+
+class Shape
+{
+public:
+    enum ShapeColor{Red, Green, Blue};
+    virtual void draw(ShapeColor color = Red) const = 0;
+};
+class Rectangle: public Shape
+{
+public:
+    virtual void draw(ShapeColor color = Red) const;
+};
+
+以上代码又有新问题：
+    代码重复，更糟糕的是，代码重复又带着相依性。
+
+解决办法：
+    使用条款35讲到的NVI手法
+
+请记住：
+    绝对不要重新定义一个继承而来的缺省参数值，因为缺省参数值都是静态绑定，而
+        virtual函数--你唯一应该覆写的东西--却是动态绑定。
