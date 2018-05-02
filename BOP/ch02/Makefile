@@ -11,8 +11,8 @@ SYSLIB =
 
 OBJDIR = .
 #SRCS = $(wildcard ./*.c)
-SRCDIR = item03
-SRCS = $(SRCDIR)/CPrefixSorting.cpp
+SRCDIR = item02
+SRCS = $(SRCDIR)/factorial.cpp
 
 
 
