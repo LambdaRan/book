@@ -11,8 +11,8 @@ SYSLIB =
 
 OBJDIR = .
 #SRCS = $(wildcard ./*.c)
-SRCDIR = item02
-SRCS = $(SRCDIR)/factorial.cpp
+SRCDIR = item04
+SRCS = $(SRCDIR)/sum1ofN.cpp
 
 
 
@@ -22,7 +22,7 @@ OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 
 $(PROJECT):$(OBJS)
 	$(CC) -o $@ $^ $(CXXFLAGS) $(SYSLIB)
-#	mv $(OBJS_BASE) $(OBJDIR)
+#	mv $(OBJS_BASE) $(OBJDIR)                         
 $(OBJS):%.o:%.cpp
 	$(CC) -c $(CXXFLAGS) $< -o $@ $(INCLUDE_DIRS)
 

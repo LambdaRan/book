@@ -1,19 +1,24 @@
 #include <iostream>
 
-#include <vector>
+#include <stdint.h>
+
 int main() 
 {
-    int nums;
-    std::vector<int> vec;
-    std::cin >> nums;
+    BEGIN
+    
+    std::cout << "INT8_MIN " << INT8_MIN << "\n";
+    std::cout << "INT16_MIN " << INT16_MIN << "\n";
+    std::cout << "INT32_MIN " << INT32_MIN << "\n";
+    std::cout << "INT64_MIN " << INT64_MIN << "\n";
 
-    for (int i = 0; i != nums; ++i)
-    {
-        int num;
-        std::cin >> num;
-        vec.push_back(num);
-    }
-    for (auto v : vec)
-        std::cout << v << " ";
+    std::cout << "INT8_MAX " << INT8_MAX << "\n";
+    std::cout << "INT16_MAX " << INT16_MAX << "\n";
+    std::cout << "INT32_MAX " << INT32_MAX << "\n";
+    std::cout << "INT64_MAX " << INT64_MAX << "\n"; 
+
+    std::cout << "UINT8_MAX " << UINT8_MAX << "\n"; 
+    std::cout << "UINT16_MAX " << UINT16_MAX << "\n"; 
+    std::cout << "UINT32_MAX " << UINT32_MAX << "\n"; 
+    std::cout << "UINT64_MAX " << UINT64_MAX << "\n";   
     std::cout << std::endl;
 }
