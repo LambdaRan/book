@@ -129,6 +129,7 @@ void BinaryTree<T>::preOrderRecursive() const
 {
     _preOrderRecursive(header_);
 }
+// 先序遍历
 template<typename T>
 void BinaryTree<T>::preOrderLoop() const
 {
