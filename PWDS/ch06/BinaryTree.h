@@ -19,7 +19,9 @@ public:
         : header_(NULL)
     {}
     ~BinaryTree()
-    {}
+    {
+        _lastRecursiveClear(header_);
+    }
 
 
     void create();
@@ -70,6 +72,7 @@ private:
     void _preOrderRecursive(Node *h) const;
     int _countRecursive(Node *t) const;
     int _height(Node *) const;
+    void _lastRecursiveClear(Node *);
 
 private:
     Node *header_;
@@ -293,5 +296,16 @@ inline
 int BinaryTree<T>::height() const
 {
     return _height(header_);
+}
+
+// 后序清空二叉树
+template<typename T>
+void BinaryTree<T>::_lastRecursiveClear(Node *h)
+{
+	if (h == NULL) 
+		return;
+	_lastRecursiveClear(h->lchild_);
+	_lastRecursiveClear(h->rchild_);
+	_free(h);     
 }
 #endif // !BINARYTREE_H
