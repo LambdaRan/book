@@ -6,8 +6,9 @@
 // 线索二叉树
 // n个节点的二叉树，有2n个指针域，n-1条分支，（2n-（n-1））=n+1个空指针域
 #include <assert.h>
+#include <stdio.h>
 
-#include <iostream>
+#include <stack>
 
 template<typename T>
 class ThreadBinaryTree 
@@ -17,14 +18,17 @@ public:
         : header_(NULL), headerNode_(0)
     {}
 
-    // ~ThreadBinaryTree()
-    // {
-    //     _lastRecursiveClear(header_);
-    // }
+    ~ThreadBinaryTree()
+    {
+        _clear();
+    }
 
     void create();
     // 中序遍历线索化
     void inThreading();
+    void inThreadingLoop();
+    // 遍历线索二叉树
+    void inOrderTraverse_Thr() const;
 
 
 
@@ -46,15 +50,24 @@ private:
     ThreadBinaryTree& operator=(const ThreadBinaryTree&);
 
     BiThrNode* _preRecursiveCreateBinaryTree();
+    void _visit(BiThrNode *t) const;
     void _free(BiThrNode *t);
-    void _lastRecursiveClear(BiThrNode *h);
+    void _clear();
     // 中序遍历线索化
-    void _inThreading(BiThrNode **pre, BiThrNode *cur) const;
+    void _inThreadingRecursive(BiThrNode **pre, BiThrNode *cur) const;
+    // 中序遍历
+    void _inOrderTraverse_Thr(const BiThrNode *t) const;
 private:
     BiThrNode *header_; // 头指针
-    //BiThrNode *root_; // 头指针
     BiThrNode headerNode_; // 头结点  
 };
+template<typename T>
+inline
+void ThreadBinaryTree<T>::_visit(BiThrNode *t) const
+{
+    assert(t != NULL);
+    printf("%c", t->data_);
+}
 
 template<typename T>
 void ThreadBinaryTree<T>::_free(BiThrNode *t)
@@ -65,13 +78,16 @@ void ThreadBinaryTree<T>::_free(BiThrNode *t)
 }
 // 后序清空二叉树
 template<typename T>
-void ThreadBinaryTree<T>::_lastRecursiveClear(BiThrNode *h)
+void ThreadBinaryTree<T>::_clear()
 {
-	if (h == NULL) 
-		return;
-	_lastRecursiveClear(h->lchild_);
-	_lastRecursiveClear(h->rchild_);
-	_free(h);     
+    BiThrNode *pheader = &headerNode_;
+    while (header_ != pheader)
+    {
+        BiThrNode *tmp = header_;
+        header_ = header_->rchild_;
+        _free(tmp);
+    }
+    header_ = NULL;
 }
 template<typename T>
 typename ThreadBinaryTree<T>::BiThrNode* ThreadBinaryTree<T>::_preRecursiveCreateBinaryTree()
@@ -99,11 +115,11 @@ void ThreadBinaryTree<T>::create()
 // pre 始终指向刚刚访问过的结点
 // cur 当前结点
 template<typename T>
-void ThreadBinaryTree<T>::_inThreading(BiThrNode **pre, BiThrNode *cur) const
+void ThreadBinaryTree<T>::_inThreadingRecursive(BiThrNode **pre, BiThrNode *cur) const
 {
     if (cur != NULL)
     {
-        _inThreading(pre, cur->lchild_); // 递归左子树线索化
+        _inThreadingRecursive(pre, cur->lchild_); // 递归左子树线索化
         //assert(cur != NULL);
         if (cur->lchild_ == NULL) // 没有左子树
         {
@@ -119,16 +135,90 @@ void ThreadBinaryTree<T>::_inThreading(BiThrNode **pre, BiThrNode *cur) const
         }
 
         (*pre) = cur;
-        _inThreading(pre, cur->rchild_); // 递归右子树线索化
+        _inThreadingRecursive(pre, cur->rchild_); // 递归右子树线索化
     }
+}
+template<typename T>
+void ThreadBinaryTree<T>::inThreadingLoop()
+{
+    std::stack<BiThrNode *> stk;
+    BiThrNode *pre = &headerNode_;
+    pre->lchild_ = header_;
+    BiThrNode *cur = header_;
+    while (cur != NULL || !stk.empty())
+    {
+        while (cur != NULL)
+        {
+            stk.push(cur);
+            cur = cur->lchild_;
+        }
+
+        if (!stk.empty())
+        {
+            cur = stk.top();
+            stk.pop();
+            // 线索化
+            if (cur->lchild_ == NULL)
+            {
+                cur->ltag_ = true;
+                cur->lchild_ = pre;
+            }
+            if (pre->rchild_ == NULL)
+            {
+                pre->rtag_ = true;
+                pre->rchild_ = cur;
+            }
+            pre = cur;
+
+            cur = cur->rchild_;
+        }
+    }
+
+    pre->rtag_ = true;
+    pre->rchild_ = &headerNode_;
+
+    headerNode_.rtag_ = true;
+    headerNode_.rchild_ = pre;
 }
 template<typename T>
 void ThreadBinaryTree<T>::inThreading()
 {
     BiThrNode *mpre = &headerNode_;
-    _inThreading(&mpre, header_);
-    std::cout << " inThreading: mpre " << mpre->data_ << "\n";
+    mpre->lchild_ = header_;
+    _inThreadingRecursive(&mpre, header_);
+
+    mpre->rtag_ = true;
+    mpre->rchild_ = &headerNode_;
+
+    headerNode_.rtag_ = true;
+    headerNode_.rchild_ = mpre;
 }
 
+// 中序遍历二叉线索链表表示的二叉树
+// t 为头结点
+template<typename T>
+void ThreadBinaryTree<T>::_inOrderTraverse_Thr(const BiThrNode *t) const
+{
 
+    BiThrNode *p = t->lchild_; // p 指向根节点
+    while (p != t) // 空树或遍历结束时，p == t
+    {
+        while (p->ltag_ == false) // 当ltag == false时循环到中序序列的第一个结点
+            p = p->lchild_;
+        _visit(p);
+
+        while (p->rtag_ == true && p->rchild_ != t)
+        {
+            p = p->rchild_;
+            _visit(p);
+        }
+
+        p = p->rchild_; // p指向其右子树
+    }
+}
+template<typename T>
+void ThreadBinaryTree<T>::inOrderTraverse_Thr() const
+{
+    _inOrderTraverse_Thr(&headerNode_);
+}
 #endif // !THREADBINARYTREE
