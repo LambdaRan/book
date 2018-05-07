@@ -58,8 +58,8 @@ SYSLIB =
 
 OBJDIR = .
 #SRCS = $(wildcard ./*.cpp)
-SRCDIRS = ./ch06
-SRCS = $(SRCDIRS)/test_ThreadBinaryTree.cpp
+SRCDIRS = ./ch08
+SRCS = $(SRCDIRS)/main.cpp
 
 
  #指定头文件目录，代码中就不需要把头文
