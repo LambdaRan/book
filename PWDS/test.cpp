@@ -1,10 +1,9 @@
 
-#include <assert.h>
+
+#include <iostream>
 
 int main()
 {
-    char *ptrChar = new char;
 
-    assert(ptrChar);
     return 0;
 }
