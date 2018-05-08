@@ -11,8 +11,8 @@ SYSLIB =
 
 OBJDIR = .
 #SRCS = $(wildcard ./*.c)
-SRCDIR = item10
-SRCS = $(SRCDIR)/minmaxelement.cpp
+SRCDIR = item09
+SRCS = $(SRCDIR)/fibonacci.cpp
 
 
 

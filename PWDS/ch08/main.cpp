@@ -65,7 +65,7 @@ int interpolation_search(int *arr, int size, int value)
     return -1;    
 }
 
-std::vector<int>& fibonacciLoop(int n = 30)
+std::vector<int>& fibonacciLoop(int n = 23)
 {
     std::vector<int> oldValue(n+1);
 
@@ -78,7 +78,9 @@ std::vector<int>& fibonacciLoop(int n = 30)
 
     return oldValue;
 }
-
+//F(24) = 46368
+// 斐波那契数列  前25项
+//array[25] = [0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765,10946,17711,28657,46368];
 int fibonacci_search(int *arr, int size, int value)
 {
     std::vector<int> fvector= fibonacciLoop();
