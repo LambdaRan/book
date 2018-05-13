@@ -2,6 +2,10 @@
 #ifndef BINARYSORTTREE_H
 #define BINARYSORTTREE_H
 
+// 时间复杂度 均匀分布时 O(log2(n))
+// 最坏情况： 有序（斜树） O（n）
+
+
 #include <assert.h>
 //#include <stdio.h>
 #include <iostream>
