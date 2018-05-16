@@ -90,7 +90,7 @@ void shellSort(int* arr, int size)
 void heapAdjust(int* arr, int s, int size)
 {
     int tmp = arr[s];
-    for (int i = 2 * s; i < size; i *= 2)
+    for (int i = 2 * s; i < size-1; i *= 2)
     {
         if (i < size && arr[i] < arr[i+1])
             ++i;
@@ -102,7 +102,7 @@ void heapAdjust(int* arr, int s, int size)
     arr[s] = tmp;
 }
 
-// 堆排序
+// 堆排序 --> 基于完全二叉树
 // 不稳定
 // 时间复杂度： 建堆：O(n)
 // 重建堆：O(nlog2(n))
@@ -121,6 +121,73 @@ void heapSort(int* arr, int size)
 }
 
 
+// 归并排序
+
+// 将有序序列SR[i...m] 和 SR[m+1...n]归并为有序的TR[i...n]
+// 下标操作
+void merge(int* sr, int* tr, int i, int m, int n)
+{
+    int j, k;
+    for (j = m+1, k = i; i <= m && j <= n; ++k)
+    {
+        if (sr[i] < sr[j])
+            tr[k] = sr[i++];
+        else  
+            tr[k] = sr[j++];
+    }
+
+    if (i <= m) // 将剩余的SR[i...m]复制到TR
+    {
+        for (int l = 0; l <= m; ++l)
+        {
+            tr[k+l] = sr[i+l];
+        }
+    }
+
+    if (j <= n) // 将剩余的SR[j...n]复制到TR
+    {
+        for (int l = 0; i <= n-j; ++l)
+        {
+            tr[k+l] = sr[j+l];
+        }
+    }
+}
+// 将SR[]中相邻长度为s的子序列两两归并到TR[]
+void mergePass(int* sr, int* tr, int s, int n) // 下标
+{
+    int i = 0;
+    while (i <= n-2*s+1)
+    {
+        merge(sr, tr, i, i+s-1, i+2*s-1); // 两两归并
+        i += 2*s;
+    }
+
+    if (i < n-s+1) //归并最后两个序列
+    {
+        merge(sr, tr, i, i+s-1, n);
+    }
+    else // 若最后只剩下单个子序列
+    {
+        for (int j = i; j <= n; ++j)
+        {
+            tr[j] = sr[j];
+        }
+    }
+}
+//
+void mergeSort(int* arr, int size)
+{
+    int* tr = (int *)malloc(size*sizeof(int));
+    int k = 0; //  cuowu
+    while (k < size)
+    {
+        mergePass(arr, tr, k, size-1);
+        k = k*2;
+        mergePass(tr, arr, k, size-1);
+        k = k*2;
+    }
+    free(tr);
+}
 
 void print_elements(int* arr, int size)
 {
@@ -136,8 +203,9 @@ int main(void)
     //bubbleSort(arr, ASIZE(arr));
     //insertSort(arr, ASIZE(arr));
     //shellSort(arr, ASIZE(arr));
-    heapSort(arr, ASIZE(arr));
+    //heapSort(arr, ASIZE(arr));
     
+    mergeSort(arr, ASIZE(arr));
     print_elements(arr, ASIZE(arr));
 
     return 0;
