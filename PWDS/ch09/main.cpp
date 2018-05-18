@@ -155,7 +155,7 @@ void merge(int* sr, int* tr, int i, int m, int n)
 // 将SR[]中相邻长度为s的子序列两两归并到TR[]
 void mergePass(int* sr, int* tr, int s, int n) // 下标
 {
-    int i = 0;
+    int i = 1;
     while (i <= n-2*s+1)
     {
         merge(sr, tr, i, i+s-1, i+2*s-1); // 两两归并
@@ -178,7 +178,7 @@ void mergePass(int* sr, int* tr, int s, int n) // 下标
 void mergeSort(int* arr, int size)
 {
     int* tr = (int *)malloc(size*sizeof(int));
-    int k = 0; //  cuowu
+    int k = 1; // 
     while (k < size)
     {
         mergePass(arr, tr, k, size-1);
@@ -187,6 +187,57 @@ void mergeSort(int* arr, int size)
         k = k*2;
     }
     free(tr);
+}
+
+// 快速排序
+// 时间复杂度: 最好 O(nlog2(n))
+// 最坏：O(n2)
+int partition(int* arr, int low, int high)
+{
+    int pivotkey;
+    pivotkey = arr[low];
+    while (low < high)
+    {
+        while (low < high && arr[high] >= pivotkey)
+            --high;
+        std::swap(arr[low], arr[high]);
+        while (low < high && arr[low] <= pivotkey)
+            ++low;
+        std::swap(arr[low], arr[high]);
+    }
+    return low;
+}
+void qsort(int* arr, int low, int high)
+{
+    int pivot;
+    if (low < high)
+    {
+        pivot = partition(arr, low, high);
+        qsort(arr, low, pivot-1);
+        qsort(arr, pivot+1, high);
+    }
+}
+// 尾递归优化，减少递归次数
+void qsort1(int* arr, int low, int high)
+{
+    int pivot;
+    if ((high-low) > MAX_LENGTH_INSERT_SORT)
+    {
+        while (low < high)
+        {
+            pivot = partition(arr, low, high);
+            qsort1(arr, low, pivot-1);
+            low = pivot + 1;
+        }
+    } 
+    else 
+    {
+        insertSort(arr, high+1);
+    }
+}
+void quickSort(int* arr, int size)
+{
+    qsort(arr, 1, size);
 }
 
 void print_elements(int* arr, int size)
