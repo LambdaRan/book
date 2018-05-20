@@ -58,12 +58,12 @@ SYSLIB =
 
 OBJDIR = .
 #SRCS = $(wildcard ./*.cpp)
-SRCDIRS = ./ch06
-SRCS = $(SRCDIRS)/BinaryTree_test.cpp
+SRCDIRS = .
+SRCS = $(SRCDIRS)/test_getpwuid_r.cpp
 
 
  #指定头文件目录，代码中就不需要把头文
-INCLUDE_DIRS = -I. -I./ch06
+INCLUDE_DIRS = -I.
 OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 
 $(PROJECT):$(OBJS)

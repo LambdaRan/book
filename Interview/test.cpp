@@ -2,45 +2,21 @@
 
 #include <iostream>
 
-template<typename T> 
-void f(T &p)
-{
-    std::cout << p << std::endl;
-}
-template<typename T> 
-void f1(const T &p)
-{
-    std::cout << p << std::endl;
-}
-template<typename T> 
-void f2(T &&p)
-{
-    std::cout << p << std::endl;
-}
+#include <assert.h>
 
-void g(int &&p)
+class test 
 {
-    std::cout << p << std::endl;
-}
+public: 
+    int val1;
+    static const int val2 = 0;
+};
+const int test::val2;
+
+#include <stdio.h>
+#include <limits.h>
 
 int main(void)
 {
-    int value = 66;
-    int &lvalue = value;
-    const int &clvaue = 66;
-    int &&rvalue = 66;
-
-    f(value);
-    f(std::forward<int&>(32));
-
-    f1(value);
-    f1(32);  
-
-    f2(value);
-    f2(32);
-
-    g(std::forward<int>(32));
-
-    auto tf1 = std::forward<int&>(value);
+    static_assert(sizeof(test) == sizeof(int), "sizeof(test) == sizeof(int)");
     return 0;
 }
