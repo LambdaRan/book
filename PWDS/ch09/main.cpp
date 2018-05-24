@@ -218,23 +218,23 @@ void qsort(int* arr, int low, int high)
     }
 }
 // 尾递归优化，减少递归次数
-void qsort1(int* arr, int low, int high)
-{
-    int pivot;
-    if ((high-low) > MAX_LENGTH_INSERT_SORT)
-    {
-        while (low < high)
-        {
-            pivot = partition(arr, low, high);
-            qsort1(arr, low, pivot-1);
-            low = pivot + 1;
-        }
-    } 
-    else 
-    {
-        insertSort(arr, high+1);
-    }
-}
+// void qsort1(int* arr, int low, int high)
+// {
+//     int pivot;
+//     if ((high-low) > MAX_LENGTH_INSERT_SORT)
+//     {
+//         while (low < high)
+//         {
+//             pivot = partition(arr, low, high);
+//             qsort1(arr, low, pivot-1);
+//             low = pivot + 1;
+//         }
+//     } 
+//     else 
+//     {
+//         insertSort(arr, high+1);
+//     }
+// }
 void quickSort(int* arr, int size)
 {
     qsort(arr, 1, size);

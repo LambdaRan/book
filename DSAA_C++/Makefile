@@ -12,7 +12,7 @@ SYSLIB =
 OBJDIR = .
 #SRCS = $(wildcard ./*.c)
 SRCDIR = ch18
-SRCS = $(SRCDIR)/defectiveChessBoard.cpp
+SRCS = $(SRCDIR)/mergeSort.cpp
 
 
 
