@@ -12,8 +12,9 @@ void merge(T c[], T d[], int startOfFirst, int endOfFirst, int endOfSecond)
 {
     int first =  startOfFirst; // 第一个数据段的索引
     int second = endOfFirst + 1; // 第二个数据段的索引
-    int result = endOfSecond; // 归并数据的索引
+    int result = startOfFirst; // 归并数据的索引
 
+    //std::cout << "first:" << first << " second: " << second << "\n";
     // 直到有一半先结束
     while ((first <= endOfFirst) && (second <= endOfSecond))
     {
@@ -24,19 +25,23 @@ void merge(T c[], T d[], int startOfFirst, int endOfFirst, int endOfSecond)
     }
 
     // 归并剩余的元素
-    if (first > endOfFirst)
+    if (second <= endOfSecond)
+    {
         for (int q = second; q <= endOfSecond; ++q)
             d[result++] = c[q];
-    else  
+    }
+    if (first <= endOfFirst)
+    {
         for (int q = first; q <= endOfFirst; ++q)
             d[result++] = c[q];
+    } 
 }
 
 // 把相邻的两个数据段从X到Y归并
 template<typename T>
 void mergePass(T x[], T y[], int n, int segmentSize)
 {
-    // 将x中相邻长度为n的子序列两两归并到y
+    // 将x中相邻长度为segmentSize的子序列两两归并到y
     int i = 0;
     while (i <= n - 2 * segmentSize)
     {
@@ -53,36 +58,35 @@ void mergePass(T x[], T y[], int n, int segmentSize)
     else   
     {
         // 只剩下一个数据段,复制到y
-        for (int j = i; j <= n; ++j)
+        for (int j = i; j < n; ++j)
             y[j] = x[j];
     }
 }
 
-
 template<typename T>
 void mergeSort(T a[], int n)
 {
-    //T *b = new T [n];
-    T *b = static_cast<T*>(malloc(n * sizeof(T)));
+    T *b = new T [n];
+    // T *b = static_cast<T*>(malloc(n * sizeof(T)));
     if (!b)
     {
         std::cout << "error" << std::endl;
         return;
     }
-    std::cout << "before:" << b << std::endl;
+    //std::cout << "before:" << b << std::endl;
     int segmentSize = 1;
     while (segmentSize < n)
     {
-        mergePass(a, b, n-1, segmentSize); // 从 a 到 b 的归并
+        mergePass(a, b, n, segmentSize); // 从 a 到 b 的归并
         segmentSize += segmentSize;
-        mergePass(b, a, n-1, segmentSize);
+        mergePass(b, a, n, segmentSize);
         segmentSize += segmentSize;
     }
 
-    std::cout << "after:" << b << std::endl;
+    //std::cout << "after:" << b << std::endl;
 
-    //delete[] b;
-    free(b);
+    delete[] b;
+    //free(b);
     return ;
 }
 
@@ -154,23 +158,37 @@ void mergeSort(T a[], int n)
 //     }
 //     free(tr);
 // }
+void printD(int* arr, int n)
+{
+    std::cout << "\n";
+    for (int i = 0; i < n; ++i)
+        std::cout << arr[i] << " ";
+    std::cout << "\n";    
+}
+template<typename T>
+void debug(T a[], int n)
+{
+    T* b = new T[n] ;
+    printD(a, n);
 
+    //merge(a, b, 0, 0, 1);
+    mergePass(a, b, n-1, 1); // 从 a 到 b 的归并
+    printD(b, n);
+
+    delete[] b;
+}
 int main(void)
 {
 
     //int arr[] = {49,80,2,12,55,31,84,38,59,71,8,43,34,94,64,13,15};
     int arr[] = {9,1,5,8,3,7,4,6,2};
     std::cout << "before: \n";
-    for (auto v : arr)
-        std::cout << v << " ";
-    std::cout << "\n";
-
+    printD(arr,sizeof(arr)/sizeof(arr[0]));
+    
     mergeSort(arr, sizeof(arr)/sizeof(arr[0]));
 
     std::cout << "after: \n";
-    for (auto v : arr)
-        std::cout << v << " ";
-    std::cout << "\n";
-
+    printD(arr,sizeof(arr)/sizeof(arr[0]));
+    //debug(arr, sizeof(arr)/sizeof(arr[0]));
     return 0;
 }
