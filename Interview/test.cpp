@@ -2,21 +2,20 @@
 
 #include <iostream>
 
-#include <assert.h>
-
-class test 
-{
-public: 
-    int val1;
-    static const int val2 = 0;
-};
-const int test::val2;
-
-#include <stdio.h>
-#include <limits.h>
+#include <iterator>
+#include <algorithm>
+#include <list>
 
 int main(void)
 {
-    static_assert(sizeof(test) == sizeof(int), "sizeof(test) == sizeof(int)");
+    std::list<int> lst = {1, 2, 3, 4};
+    std::list<int> lst2;
+
+    std::copy(lst.begin(), lst.end(), std::inserter(lst2, lst2.begin()));
+
+    for (auto &v:lst2)
+        std::cout << v << " ";
+    
+
     return 0;
 }
