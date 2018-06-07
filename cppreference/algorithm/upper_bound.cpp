@@ -58,7 +58,7 @@ std::upper_bound
             std::advance(it, step);
             if (!(value < *it)) {
                 first = ++it;
-                count -= step + 1;
+                count -= step + 1; // 注意 count = count - (step + 1);
             }
             else
                 count = step;
