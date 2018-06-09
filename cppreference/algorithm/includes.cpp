@@ -2,6 +2,7 @@
 http://en.cppreference.com/w/cpp/algorithm/includes
 
 std::includes
+如果一个集合是另一个集合的子集（函数模板），则返回true 
 
 定义于头文件 <algorithm>
 (1)	(C++20 前)
