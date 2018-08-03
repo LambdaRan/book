@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
+#include <sys/select.h>
 
 int main(int argc, char *argv[])
 {
@@ -56,6 +57,7 @@ int main(int argc, char *argv[])
     char buf[1024];
     fd_set read_fds;
     fd_set exception_fds;
+    
     FD_ZERO(&read_fds);
     FD_ZERO(&exception_fds);
 
@@ -75,7 +77,7 @@ int main(int argc, char *argv[])
         if (FD_ISSET(connfd, &read_fds))
         {
             ret = recv(connfd, buf, sizeof(buf)-1, 0);
-            if (ret < 0)
+            if (ret <= 0)
                 break;
             printf("get %d bytes of normal data: %s\n", ret, buf);
         }
@@ -87,6 +89,7 @@ int main(int argc, char *argv[])
             printf("get %d bytes of oob data: %s\n", ret, buf);
         }
     }
+    
     close(connfd);
     close(listenfd);
 

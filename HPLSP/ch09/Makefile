@@ -7,11 +7,11 @@ CXXFLAGS += -Wall -Wextra
 CC = gcc
 
 PROJECT = main
-SYSLIB = 
+SYSLIB = -lpthread
 
 OBJDIR = .
 #SRCS = $(wildcard ./*.c)
-SRCS = main913.c
+SRCS = main934.c
 
 
  #指定头文件目录，代码中就不需要把头文
