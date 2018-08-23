@@ -34,7 +34,7 @@ void insertSort(int *arr, int n)
             arr[j+1] = dump;
         }
     }
-}
+}                                                      
 int main()
 {
     cout << "Insert Sort" << endl;
