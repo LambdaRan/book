@@ -31,11 +31,20 @@ template< class ExecutionPolicy, class ForwardIt1, class ForwardIt2, class Binar
 ForwardIt2 adjacent_difference( ExecutionPolicy&& policy, ForwardIt1 first, ForwardIt1 last, 
                                 ForwardIt2 d_first, BinaryOperation op );
 (4)	(C++17 起)
-计算 [first, last) 范围中每对相邻元素的第二个和第一个的差，并写入它们到始于 d_first + 1 的范围。写入不修改的 *first 副本到 *d_first 。
+计算 [first, last) 范围中每对相邻元素的第二个和第一个的差，
+并写入它们到始于 d_first + 1 的范围。写入不修改的 *first 副本到 *d_first 。
 
-1,3) 首先，创建类型为 InputIt 的 value_type 的积累器 acc ，以 *first 初始化，并赋值为 *d_first 的结果。然后，对于 [first + 1, last) 中按顺序的每个迭代器 i ，创建类型为 InputIt 的 value_type 的对象 val ，以 *i 初始化，计算 val - acc (C++20 前)val - std::move(acc) (C++20 起) （重载 (1) ）或 op(val, acc) (C++20 前)op(val, std::move(acc)) (C++20 起) （重载 (3) ），赋值结果到 *(d_first + (i - first)) ，并从 val 移动赋值到 acc 。
+1,3) 首先，创建类型为 InputIt 的 value_type 的积累器 acc ，以 *first 初始化，并赋值为 *d_first 的结果。
+然后，对于 [first + 1, last) 中按顺序的每个迭代器 i ，创建类型为 InputIt 的 value_type 的对象 val ，
+以 *i 初始化，计算 val - acc (C++20 前)val - std::move(acc) (C++20 起) （重载 (1) ）
+或 op(val, acc) (C++20 前)op(val, std::move(acc)) (C++20 起) （重载 (3) ），
+赋值结果到 *(d_first + (i - first)) ，并从 val 移动赋值到 acc 。
  first 可以等于 d_first 。
-2,4) 首先，创建类型为 ForwardIt1 的 value_type 的对象，以 *first 初始化，并赋值为 *d_first 的结果。然后对 [1, last - first - 1] 中每个的 d ，创建类型为 ForwardIt1 的 value_type 的对象 val ，以 *(first + d) - *(first + d - 1) （重载 (2) ）或 op(*(first + d), *(first + d - 1)) （重载 (4) ）初始化，并赋值到 *(d_first + d) 。这根据 policy 执行。此重载仅若 std::is_execution_policy_v<std::decay_t<ExecutionPolicy>> 为 true 才参与重载决议。
+2,4) 首先，创建类型为 ForwardIt1 的 value_type 的对象，以 *first 初始化，并赋值为 *d_first 的结果。
+然后对 [1, last - first - 1] 中每个的 d ，创建类型为 ForwardIt1 的 value_type 的对象 val ，
+以 *(first + d) - *(first + d - 1) （重载 (2) ）或 op(*(first + d), *(first + d - 1)) （重载 (4) ）初始化，
+并赋值到 *(d_first + d) 。这根据 policy 执行。
+此重载仅若 std::is_execution_policy_v<std::decay_t<ExecutionPolicy>> 为 true 才参与重载决议。
  若输入与输出范围以任何方式重叠则行为未定义。
 
 等价操作：

@@ -59,7 +59,7 @@ SYSLIB =
 OBJDIR = .
 #SRCS = $(wildcard ./*.cpp)
 SRCDIRS = ./ch09
-SRCS = $(SRCDIRS)/main.cpp
+SRCS = $(SRCDIRS)/quickSort.cpp
 
 
  #指定头文件目录，代码中就不需要把头文

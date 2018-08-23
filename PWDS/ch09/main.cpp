@@ -6,7 +6,7 @@
 #define ASIZE(x) (sizeof(x)/sizeof(x[0]))
 
 // 冒泡排序
-// 时间复杂度： 最好O(1) 
+// 时间复杂度： 最好O(n) 
 // 最坏：逆序 O(pow(N))
 void bubbleSort(int* a, int size)
 {
