@@ -38,6 +38,7 @@ void heapAdjust(int *arr, int adn, int end)
         if (j < end && arr[j] < arr[j+1])   ++j;
         // 当前的值比左右孩子节点中的值都大，退出
         if (cur >= arr[j])   break;
+        
         arr[adn] = arr[j];
         adn = j;
     }

@@ -11,7 +11,7 @@ SYSLIB =
 
 OBJDIR = .
 #SRCS = $(wildcard ./*.c)
-SRCS = test_510.c
+SRCS = test_55.c
 
 
  #指定头文件目录，代码中就不需要把头文
