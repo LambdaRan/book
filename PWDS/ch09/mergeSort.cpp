@@ -37,7 +37,7 @@ void merge(int* sr, int* tr, int i, int m, int n)
 
     if (i <= m) // 将剩余的SR[i...m]复制到TR
     {
-        for (int l = 0; l <= m; ++l)
+        for (int l = 0; l <= m-i; ++l)
         {
             tr[k+l] = sr[i+l];
         }
