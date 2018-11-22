@@ -12,12 +12,28 @@
 
 #define MAXSIZE 65536
 
-
-int count = 0;
-
+int binary_search_v2(int *arr, int start, int end, int value)
+{
+    int count = end - start; 
+    int step = 0;
+    int cur;
+    while (count > 0)
+    {
+        cur = start;
+        step = count / 2;
+        cur += step;
+        if (arr[step] < value)
+        {
+            start = ++cur;
+            count -= step + 1;
+        }
+        else  
+            count = step;
+    }
+    return start;
+}
 int binary_search(int *arr, int size, int value)
 {
-    count = 0;
     int low = 0;
     int hight = size - 1;
     while (low <= hight)
@@ -35,7 +51,6 @@ int binary_search(int *arr, int size, int value)
         {
             hight = mid - 1;
         }
-        ++count;
     }
     return -1;
 }

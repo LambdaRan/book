@@ -10,10 +10,10 @@ std::vector<int> get_next(const std::string &str)
 {
     assert(str.size() > 0);
 
-    int j = -1;
     std::vector<int> next(str.size());
     next[0] = -1;
     size_t i = 0;
+    int j = -1;
     while (i < str.size() - 1)
     {
         if (j == -1 || str[i] == str[j])
@@ -34,10 +34,10 @@ std::vector<int> get_nextval(const std::string &str)
 {
     assert(str.size() > 0);
 
-    int j = -1;
     std::vector<int> next(str.size());
     next[0] = -1;
     size_t i = 0;
+    int j = -1;
     while (i < str.size() - 1)
     {
         if (j == -1 || str[i] == str[j])
@@ -62,10 +62,10 @@ int index_kmp(const std::string &mstr, const std::string &tstr, int position)
 {
     int size_mstr = mstr.size();
     int size_tstr = tstr.size();
-
+    
     if (size_mstr == 0 || size_tstr == 0 || position > size_mstr)
         return -1;
-    
+
     std::vector<int> next = get_next(tstr);
 
     int j = 0;
