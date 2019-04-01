@@ -64,8 +64,7 @@ void qsort_v2(int* arr, int low, int high)
 
 int partition(int* arr, int low, int high)
 {
-    int pivotkey;
-    pivotkey = arr[low];
+    int pivotkey = arr[low];
     while (low < high)
     {
         while (low < high && arr[high] >= pivotkey)

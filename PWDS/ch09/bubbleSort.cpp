@@ -11,7 +11,7 @@ using namespace std;
 // 最坏情况：   O(pow(n,2))
 // 空间复杂度：  O（1）
 // 稳定性：     稳定
-// 思想： 两两比较相邻记录的关键字，如果反序则交换，知道没有反序的记录为止。
+// 思想： 两两比较相邻记录的关键字，如果反序则交换，直到没有反序的记录为止。
 void bubbleSort(int *arr, int n)
 {
     if (n <= 1) return;
@@ -19,8 +19,9 @@ void bubbleSort(int *arr, int n)
     // 从头往前是因为：前面的已经排好序，不需要比较
     for (int i = 1; i < n && !isSort; ++i)
     {
-        isSort = true;
-        // 从尾端到前段两两比较，遇到逆序对就交换，将最后的移动到最前面
+        isSort = true; // 当数列有序时时间复杂度为O(n)
+
+        // 从尾端到前段两两比较，遇到逆序对就交换，将最小值移动到最前面
         for (int j = n-1; j >= i; --j)
         {
             if (arr[j] < arr[j-1])
