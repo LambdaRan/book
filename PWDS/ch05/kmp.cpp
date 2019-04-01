@@ -103,7 +103,7 @@ int main(void)
     std::string pstr3 = "ababaaaba";
 
     std::string pstr4 = "ababaaaba"; 
-    std::string pstr5 = "aaaaaaaab";   
+    std::string pstr5 = "abcabcabc";   
 
     std::vector<int> next = get_next(pstr1);
     printf_next(next);
@@ -118,6 +118,8 @@ int main(void)
     printf_next(next);
 
     next = get_nextval(pstr5);
+    printf_next(next);
+    next = get_next(pstr5);
     printf_next(next);
 
     std::string main_str = "bacbababadababacambabacaddababacasdsd";
