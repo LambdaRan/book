@@ -58,7 +58,10 @@ CC = g++
 
 #INCLUDE = -I./simple/
 
-SRC = demoduck.cpp
+# SRC = ./strategy/demoduck.cpp
+SRC = ./strategy/strategy_refactoringguru.cpp
+# SRC = ./observer/observer.cpp
+# SRC = ./observer/observer_refactoringguru.cpp
 
 main:$(SRC)
 	$(CC) $(CXXFLAGS)  $(SRC) -o main
